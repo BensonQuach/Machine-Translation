@@ -1,0 +1,1506 @@
+=======================================================================================
+DISCUSSION (MLE)
+=======================================================================================
+
+proportion1k: 0.1715
+proportion10k: 0.1679
+proportion15k: 0.1569
+proportion30k: 0.1496
+
+The proportion of words correctly translated is not a good measure of the quality of the 
+translation since the semantics can still be within the sentence but in a different order.
+
+Example of the argument above is highlighted with the following notation [### ###]:
+
+orig_eng_sent = 
+  Columns 1 through 8
+    'SENTSTART'    'in'   [###  'the'    'real'    'world' ###]    'there'    'is'   [### 'nothing' ###]
+  Columns 9 through 13
+    'wrong'    'with'    'that'    'PERIOD_'    'SENTEND'
+
+eng_sent1k = 
+  Columns 1 through 8
+    'SENTSTART'    'guide'   [### 'right'    'world'     'UNK' ###]   'COMMA_'    'he'   [### 'never' ###]
+  Columns 9 through 16
+    'build'    'has'    'quarrel'    'de'    'domestic'    'has'    'case'    'PERIOD_'
+  Column 17
+    'SENTSTART'
+
+As we can see "the" -aligns with-> "right", "real" -> "world", and "world" -> "UNK". However, the
+semantics of "real world" is approximately within the decoded sentence, which our proportions calculation
+does not take into account.
+
+This also does not account for the words that have similar meaning ex: "nothing" and "never",
+"real world" and "right world".
+
+Example of the argument above is highlighted with the following notation [### ###]:
+ 
+orig_eng_sent = 
+  Columns 1 through 8
+    'SENTSTART'    'in'    'the'    [### 'real'    'world' ###]    'there'    'is'   [### 'nothing' ###]
+  Columns 9 through 13
+    'wrong'    'with'    'that'    'PERIOD_'    'SENTEND'
+
+eng_sent1k = 
+  Columns 1 through 8
+    'SENTSTART'    'guide'   [### 'right'    'world' ###]   'UNK'    'COMMA_'    'he'   [### 'never' ###]
+  Columns 9 through 16
+    'build'    'has'    'quarrel'    'de'    'domestic'    'has'    'case'    'PERIOD_'
+  Column 17
+    'SENTSTART'
+
+The results show that the proportion decreases as we use the alignment models that have
+an increased number of sentences trained on.  A possible argument for the gradual decrement
+could be that having more sentences increases the probability and diversity of the words
+that the french sentence can be translated to and thus would lead to less chance of correctly
+matching the EXACT word of the original english sentence.
+
+Another side effect that could cause the proportions to be off is that we're considering
+SENTSTART and SENTEND in the alignment, this gives those a probability of being a possible
+translation to a given word which shouldn't be the case.
+
+=======================================================================================
+RAW DATA RESULTS
+=======================================================================================
+
+csc401_a2_defns
+evalAlign
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'in'    'the'    'real'    'world'    'there'    'is'    'nothing'
+
+  Columns 9 through 13
+
+    'wrong'    'with'    'that'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'guide'    'right'    'world'    'UNK'    'COMMA_'    'he'    'never'
+
+  Columns 9 through 16
+
+    'build'    'has'    'quarrel'    'de'    'domestic'    'has'    'case'    'PERIOD_'
+
+  Column 17
+
+    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'has'    'into'    'right'    'world'    'name'    'COMMA_'    'he'    'nothing'
+
+  Columns 9 through 16
+
+    'ago'    'SENTSTART'    'quarrel'    'de'    'badly'    'has'    'allows'    'PERIOD_'
+
+  Column 17
+
+    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'has'    'into'    'right'    'world'    'real'    'COMMA_'    'he'    'nothing'
+
+  Columns 9 through 16
+
+    'ago'    'SENTSTART'    'quarrel'    'de'    'badly'    'has'    'overlap'    'PERIOD_'
+
+  Column 17
+
+    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'has'    'district'    'right'    'world'    'shuts'    'COMMA_'    'he'    'no'
+
+  Columns 9 through 16
+
+    'ago'    'SENTSTART'    'nothing'    'de'    'badly'    'has'    'cheek'    'PERIOD_'
+
+  Column 17
+
+    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'that'    'is'    'true'    'for'    'every'    'member'    'of'
+
+  Columns 9 through 11
+
+    'parliament'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'case'    'UNK'    'building'    'all'    'through'    'members'
+
+  Columns 8 through 9
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'sum'    'allows'    'worth'    'SENTSTART'    'all'    'incredible'    'members'
+
+  Columns 8 through 9
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'overlap'    'SENTSTART'    'worth'    'sum'    'all'    'boats'    'members'
+
+  Columns 8 through 9
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'diefenbaker'    'cheek'    'worth'    'SENTSTART'    'all'    'awards'    'members'
+
+  Columns 8 through 9
+
+    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 9
+
+    'SENTSTART'    'i'    'would'    'think'    'this'    'is'    'not'    'at'    'all'
+
+  Columns 10 through 17
+
+    'what'    'we'    'want'    'to'    'do'    'here'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'gone'    'i'    'cannot'    'wrap'    'not'    'than'    'what'    'her'
+
+  Columns 9 through 13
+
+    'SENTSTART'    'our'    'hidden'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'i'    'cannot'    'disillusioned'    'not'    'than'    'what'
+
+  Columns 8 through 13
+
+    'triple'    'court'    'our'    'objective'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'i'    'cannot'    'feedback'    'not'    'arrest'    'what'
+
+  Columns 8 through 13
+
+    'reprehensible'    'la'    'our'    'objective'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'unlikely'    'i'    'wrist'    'think'    'not'    'bless'    'SENTSTART'
+
+  Columns 8 through 13
+
+    'admittedly'    'la'    'our'    'objective'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'all'    'those'    'in'    'favour'    'of'    'the'    'motion'
+
+  Columns 9 through 14
+
+    'will'    'please'    'say'    'yea'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'than'    'all'    'represent'    'who'    'terms'    'gone'    'motion'
+
+  Columns 9 through 14
+
+    'UNK'    'well'    'share'    'yes'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'than'    'SENTSTART'    'all'    'protects'    'who'    'raising'    'court'
+
+  Columns 8 through 14
+
+    'motion'    'yea'    'well'    'say'    'yes'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'arrest'    'SENTSTART'    'all'    'protects'    'who'    'raising'    'la'
+
+  Columns 8 through 14
+
+    'motion'    'please'    'well'    'say'    'yes'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'bless'    'SENTSTART'    'all'    'namely'    'who'    'credible'    'la'    'motion'
+
+  Columns 9 through 14
+
+    'nay'    'well'    'say'    'yes'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'the'    'good'    'news'    'is'    'that'    'canada'    'post'
+
+  Columns 9 through 12
+
+    'is'    'listening'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 9
+
+    'SENTSTART'    'right'    'UNK'    'new'    'is'    'than'    'UNK'    'canada'    'is'
+
+  Columns 10 through 13
+
+    'else'    'UNK'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'right'    'wise'    'scotia'    'is'    'than'    'twice'    'canada'
+
+  Columns 9 through 13
+
+    'is'    'mathematical'    'UNK'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'right'    'wise'    'scotia'    'east'    'arrest'    'post'
+
+  Columns 8 through 13
+
+    'canada'    'east'    'mathematical'    'beats'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'right'    'good'    'scotia'    'east'    'bless'    'post'    'canada'
+
+  Columns 9 through 13
+
+    'east'    'mathematical'    'beats'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+    'SENTSTART'    'we'    'have'    'to'    'ask'    'why'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'issue'    'gone'    'SENTSTART'    'some'    'asked'    'rich'    'COMMA_'    'why'
+
+  Columns 9 through 10
+
+    'QUESTION_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 6
+
+    'question'    'court'    'SENTSTART'    'error'    'distraught'    'therefore'
+
+  Columns 7 through 10
+
+    'COMMA_'    'why'    'QUESTION_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 6
+
+    'question'    'la'    'SENTSTART'    'waking'    'distraught'    'therefore'
+
+  Columns 7 through 10
+
+    'COMMA_'    'why'    'QUESTION_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 6
+
+    'question'    'la'    'SENTSTART'    'contradicting'    'plumber'    'therefore'
+
+  Columns 7 through 10
+
+    'COMMA_'    'why'    'QUESTION_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'many'    'liberal'    'members'    'come'    'from'    'rural'
+
+  Columns 8 through 10
+
+    'ridings'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 6
+
+    'SENTSTART'    'through'    'members'    'liberals'    'vulnerable'    'creative'
+
+  Columns 7 through 13
+
+    'has'    'representing'    'add'    'riding'    'UNK'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 6
+
+    'riding'    'incredible'    'members'    'liberals'    'vacuum'    'participating'
+
+  Columns 7 through 13
+
+    'has'    'exceedingly'    'des'    'SENTSTART'    'rural'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'riding'    'boats'    'members'    'liberals'    'burned'    'abundant'    'has'
+
+  Columns 8 through 13
+
+    'represent'    'des'    'SENTSTART'    'rural'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'riding'    'awards'    'members'    'liberals'    'burned'    'abundant'    'has'
+
+  Columns 8 through 13
+
+    'represent'    'des'    'SENTSTART'    'rural'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+    'SENTSTART'    'we'    'live'    'in'    'a'    'democracy'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'UNK'    'guide'    'speaking'    'UNK'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'thriving'    'into'    'reassigned'    'democracy'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'thriving'    'into'    'smoke'    'democracy'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 6
+
+    'SENTSTART'    'we'    'thriving'    'district'    'reassigned'    'democracy'
+
+  Columns 7 through 8
+
+    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'i'    'cannot'    'imagine'    'anything'    'so'    'ridiculous'
+
+  Columns 8 through 9
+
+    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'skeleton'    'is'    'right'    'UNK'    'du'    'ridiculous'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'campaigning'    'is'    'right'    'UNK'    'du'    'ridiculous'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 6
+
+    'east'    'campaigning'    'SENTSTART'    'right'    'motivation'    'du'
+
+  Columns 7 through 8
+
+    'ridiculous'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'east'    'campaigning'    'SENTSTART'    'right'    'fills'    'du'    'ridiculous'
+
+  Column 8
+
+    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'in'    'my'    'opinion'    'the'    'nays'    'have'    'it'
+
+  Columns 9 through 10
+
+    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'has'    'belong'    'agree'    'COMMA_'    'through'    'expect'
+
+  Columns 8 through 10
+
+    'turn'    'UNK'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'institute'    'has'    'father'    'opinion'    'COMMA_'    'incredible'    'nays'
+
+  Columns 8 through 10
+
+    'SENTSTART'    'yeas'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'colleague'    'has'    'SENTSTART'    'opinion'    'COMMA_'    'boats'    'nay'
+
+  Columns 8 through 10
+
+    'automobile'    'nays'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'colleague'    'has'    'SENTSTART'    'opinion'    'COMMA_'    'awards'    'nay'
+
+  Columns 8 through 10
+
+    'institute'    'yeas'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'all'    'members'    'of'    'all'    'parties'    'are'    'aware'
+
+  Columns 9 through 13
+
+    'of'    'these'    'programs'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'through'    'all'    'SENTSTART'    'members'    'de'    'all'    'through'
+
+  Columns 8 through 13
+
+    'reread'    'export'    'well'    'these'    'programs'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'all'    'incredible'    'members'    'de'    'all'    'incredible'
+
+  Columns 8 through 13
+
+    'parties'    'engineers'    'well'    'these'    'programs'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'parties'    'all'    'boats'    'members'    'de'    'all'    'boats'    'SENTSTART'
+
+  Columns 9 through 13
+
+    'freely'    'well'    'these'    'programs'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'all'    'awards'    'members'    'de'    'all'    'awards'    'parties'
+
+  Columns 9 through 13
+
+    'engineers'    'well'    'these'    'programs'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'do'    'not'    'intend'    'to'    'stop'    'that'
+
+  Columns 9 through 10
+
+    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'never'    'grieved'    'not'    'turn'    'UNK'    'de'
+
+  Columns 9 through 14
+
+    'attempting'    'left'    'has'    'case'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'nothing'    'grieved'    'not'    'institute'    'intend'
+
+  Columns 8 through 14
+
+    'de'    'donkin'    'end'    'has'    'allows'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'nothing'    'grieved'    'not'    'automobile'    'gloat'
+
+  Columns 8 through 14
+
+    'de'    'donkin'    'drawing'    'has'    'overlap'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'no'    'grieved'    'not'    'institute'    'intend'    'de'
+
+  Columns 9 through 14
+
+    'weight'    'end'    'has'    'cheek'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'let'    'us'    'meet'    'our'    'kyoto'    'commitments'
+
+  Columns 8 through 9
+
+    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'UNK'    'successful'    'UNK'    'our'    'UNK'    'de'    'UNK'
+
+  Columns 9 through 10
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'UNK'    'narrow'    'UNK'    'our'    'commitments'    'de'    'UNK'
+
+  Columns 9 through 10
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'UNK'    'minded'    'UNK'    'our'    'commitments'    'de'    'UNK'
+
+  Columns 9 through 10
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'UNK'    'erin'    'fulfill'    'nos'    'commitments'    'de'
+
+  Columns 8 through 10
+
+    'kyoto'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'the'    'minister'    'of'    'finance'    'has'    'made'    'deep'
+
+  Columns 9 through 14
+
+    'cuts'    'to'    'provincial'    'transfers'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'right'    'minister'    'add'    'finance'    'has'    'UNK'    'has'
+
+  Columns 9 through 16
+
+    'ballot'    'de'    'UNK'    'guide'    'through'    'UNK'    'needs'    'provinces'
+
+  Columns 17 through 18
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'right'    'minister'    'des'    'finance'    'has'    'gut'    'has'
+
+  Columns 9 through 15
+
+    'ballot'    'de'    'michelle'    'into'    'incredible'    'transfers'    'palliative'
+
+  Columns 16 through 18
+
+    'provinces'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'right'    'minister'    'des'    'finance'    'has'    'gut'    'has'
+
+  Columns 9 through 16
+
+    'turn'    'de'    'bras'    'into'    'boats'    'transfers'    'aux'    'provinces'
+
+  Columns 17 through 18
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'right'    'minister'    'des'    'finance'    'has'    'gut'    'has'
+
+  Columns 9 through 15
+
+    'ballot'    'de'    'bras'    'district'    'awards'    'transfers'    'aux'
+
+  Columns 16 through 18
+
+    'provinces'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 9
+
+    'SENTSTART'    'let'    'us'    'get'    'on'    'with'    'it'    'and'    'continue'
+
+  Columns 10 through 15
+
+    'to'    'engage'    'in'    'debate'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'but'    'UNK'    'case'    'and'    'UNK'    'guide'    'right'
+
+  Columns 9 through 13
+
+    'bottom'    'du'    'debate'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'into'    'but'    'frivolous'    'allows'    'and'    'substance'    'SENTSTART'
+
+  Columns 8 through 13
+
+    'right'    'heart'    'du'    'debate'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'into'    'but'    'frivolous'    'overlap'    'and'    'substance'    'SENTSTART'
+
+  Columns 8 through 13
+
+    'right'    'heart'    'du'    'debate'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'district'    'but'    'frivolous'    'cheek'    'and'    'substance'    'SENTSTART'
+
+  Columns 8 through 13
+
+    'right'    'heart'    'du'    'debate'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'are'    'suggesting'    'that'    'we'    'could'    'pass'
+
+  Columns 9 through 13
+
+    'a'    'better'    'bill'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 9
+
+    'SENTSTART'    'we'    'UNK'    'only'    'he'    'is'    'makes'    'de'    'do'
+
+  Columns 10 through 12
+
+    'smarter'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'functioning'    'we'    'pensionable'    'qu'    'he'    'is'    'possible'    'de'
+
+  Columns 9 through 12
+
+    'semantic'    'SENTSTART'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'pensionable'    'qu'    'he'    'east'    'possible'    'de'
+
+  Columns 9 through 12
+
+    'semantic'    'better'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'foolhardy'    'qu'    'he'    'east'    'possible'    'de'
+
+  Columns 9 through 12
+
+    'enforce'    'better'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'this'    'is'    'reminiscent'    'of'    'the'    'liberal'    'way'
+
+  Columns 9 through 13
+
+    'of'    'doing'    'things'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'skeleton'    'is'    'right'    'most'    'UNK'    'rhetoric'
+
+  Columns 8 through 10
+
+    'liberal'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'campaigning'    'is'    'right'    'longer'    'UNK'    'imagery'
+
+  Columns 8 through 10
+
+    'liberal'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'liberal'    'campaigning'    'east'    'right'    'longer'    'whimsy'    'imagery'
+
+  Columns 8 through 10
+
+    'SENTSTART'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'liberal'    'campaigning'    'east'    'right'    'longer'    'whimsy'    'imagery'
+
+  Columns 8 through 10
+
+    'SENTSTART'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'the'    'prime'    'minister'    'will'    'determine'    'who'
+
+  Columns 8 through 15
+
+    'the'    'president'    'of'    'the'    'council'    'will'    'be'    'PERIOD_'
+
+  Column 16
+
+    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'build'    'UNK'    'COMMA_'    'and'    'right'    'prime'
+
+  Columns 9 through 15
+
+    'minister'    'established'    'situations'    'who'    'is'    'right'    'speaker'
+
+  Columns 16 through 19
+
+    'du'    'offer'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'ago'    'UNK'    'COMMA_'    'and'    'right'    'prime'
+
+  Columns 9 through 16
+
+    'minister'    'sadly'    'determine'    'who'    'is'    'right'    'president'    'du'
+
+  Columns 17 through 19
+
+    'conseil'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'ago'    'UNK'    'COMMA_'    'and'    'right'    'prime'
+
+  Columns 9 through 15
+
+    'minister'    'sadly'    'determine'    'who'    'east'    'right'    'president'
+
+  Columns 16 through 19
+
+    'du'    'conseil'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'ago'    'UNK'    'COMMA_'    'and'    'right'    'prime'
+
+  Columns 9 through 15
+
+    'minister'    'rochon'    'determine'    'who'    'east'    'right'    'president'
+
+  Columns 16 through 19
+
+    'du'    'council'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'clearly'    'it'    'is'    'a'    'conflict'    'of'    'interest'
+
+  Columns 9 through 11
+
+    'situation'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 9
+
+    'SENTSTART'    'he'    'is'    'UNK'    'than'    'case'    'UNK'    'a'    'UNK'
+
+  Columns 10 through 13
+
+    'successful'    'N47'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 9
+
+    'SENTSTART'    'he'    'is'    'clear'    'than'    'allows'    'UNK'    'a'    'UNK'
+
+  Columns 10 through 13
+
+    'narrow'    'interests'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'he'    'east'    'clear'    'arrest'    'overlap'    'UNK'    'troops'
+
+  Columns 9 through 13
+
+    'UNK'    'minded'    'interests'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'he'    'east'    'clearer'    'bless'    'cheek'    'signal'
+
+  Columns 8 through 13
+
+    'troops'    'UNK'    'erin'    'interests'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+    'SENTSTART'    'we'    'welcome'    'the'    'opportunity'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'we'    'we'    'solid'    'de'    'these'    'news'    'UNK'
+
+  Columns 9 through 10
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'we'    'celebrate'    'de'    'these'    'news'
+
+  Columns 8 through 10
+
+    'opportunities'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'we'    'celebrating'    'de'    'these'    'news'
+
+  Columns 8 through 10
+
+    'prospects'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'we'    'we'    'celebrating'    'de'    'these'    'news'
+
+  Columns 8 through 10
+
+    'prospects'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'i'    'declare'    'the'    'motion'    'lost'    'PERIOD_'
+
+  Column 8
+
+    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'i'    'beginning'    'gone'    'motion'    'UNK'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'court'    'i'    'declare'    'SENTSTART'    'motion'    'defeated'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'negatived'    'i'    'declare'    'la'    'motion'    'SENTSTART'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'la'    'i'    'declare'    'SENTSTART'    'motion'    'defeated'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'and'    'more'    'than'    'five'    'members'    'having'    'risen'
+
+  Columns 9 through 10
+
+    'COLON_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'and'    'most'    'de'    'five'    'members'    'adjourn'
+
+  Columns 8 through 11
+
+    'returned'    'UNK'    'COLON_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'and'    'SENTSTART'    'longer'    'de'    'five'    'members'    'deeper'    'having'
+
+  Columns 9 through 11
+
+    'risen'    'COLON_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 8
+
+    'deeper'    'and'    'longer'    'de'    'five'    'members'    'SENTSTART'    'class'
+
+  Columns 9 through 11
+
+    'risen'    'COLON_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'and'    'SENTSTART'    'longer'    'de'    'five'    'members'    'applies'
+
+  Columns 8 through 11
+
+    'having'    'risen'    'COLON_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 9
+
+    'SENTSTART'    'i'    'do'    'not'    'think'    'a'    'union'    'is'    'the'
+
+  Columns 10 through 16
+
+    'key'    'to'    'solving'    'the'    'problem'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'i'    'cannot'    'think'    'not'    'than'    'what'    'her'
+
+  Columns 9 through 14
+
+    'gone'    'grievances'    'du'    'problem'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'i'    'cannot'    'believe'    'not'    'than'    'what'    'triple'
+
+  Columns 9 through 14
+
+    'court'    'solution'    'du'    'problem'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'i'    'cannot'    'believe'    'not'    'arrest'    'what'
+
+  Columns 8 through 14
+
+    'reprehensible'    'la'    'solution'    'du'    'problem'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'unlikely'    'i'    'wrist'    'believe'    'not'    'bless'    'SENTSTART'
+
+  Columns 8 through 14
+
+    'admittedly'    'la'    'solution'    'du'    'problem'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'i'    'commend'    'the'    'member'    'for'    'winnipeg'    'centre'
+
+  Columns 9 through 15
+
+    'for'    'bringing'    'forward'    'this'    'bill'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'centre'    'i'    'congratulate'    'right'    'member'    'de'    'blaikie'
+
+  Columns 8 through 14
+
+    'DASH_'    'SENTSTART'    'successful'    'technology'    'biggest'    'what'    'bill'
+
+  Columns 15 through 18
+
+    'de'    'act'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 8
+
+    'SENTSTART'    'i'    'bolton'    'right'    'member'    'de'    'winnipeg'    'DASH_'
+
+  Columns 9 through 16
+
+    'centre'    'narrow'    'placing'    'introducing'    'what'    'bill'    'de'    'act'
+
+  Columns 17 through 18
+
+    'PERIOD_'    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'introducing'    'i'    'commend'    'right'    'member'    'de'    'winnipeg'
+
+  Columns 8 through 14
+
+    'DASH_'    'centre'    'minded'    'attitudes'    'SENTSTART'    'what'    'project'
+
+  Columns 15 through 18
+
+    'de'    'law'    'PERIOD_'    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 8
+
+    'centre'    'i'    'commend'    'right'    'member'    'de'    'winnipeg'    'DASH_'
+
+  Columns 9 through 15
+
+    'SENTSTART'    'erin'    'chatter'    'presents'    'unlikely'    'project'    'de'
+
+  Columns 16 through 18
+
+    'act'    'PERIOD_'    'SENTSTART'
+
+
+orig_eng_sent = 
+
+    'SENTSTART'    'something'    'has'    'to'    'change'    'PERIOD_'    'SENTEND'
+
+
+eng_sent1k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'he'    'fight'    'than'    'ridiculous'    'changed'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent10k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'he'    'restructuring'    'than'    'skin'    'changed'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent15k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'he'    'restructuring'    'arrest'    'skin'    'changed'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+eng_sent30k = 
+
+  Columns 1 through 7
+
+    'SENTSTART'    'he'    'restructuring'    'bless'    'skin'    'changed'    'PERIOD_'
+
+  Column 8
+
+    'SENTSTART'
+
+
+proportion1k =
+
+    0.1715
+
+
+proportion10k =
+
+    0.1679
+
+
+proportion15k =
+
+    0.1569
+
+
+proportion30k =
+
+    0.1496
+

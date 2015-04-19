@@ -1,0 +1,78 @@
+function outSentence = preprocess( inSentence, language )
+%
+%  preprocess
+%
+%  This function preprocesses the input text according to language-specific rules.
+%  Specifically, we separate contractions according to the source language, convert
+%  all tokens to lower-case, and separate end-of-sentence punctuation 
+%
+%  INPUTS:
+%       inSentence     : (string) the original sentence to be processed 
+%                                 (e.g., a line from the Hansard)
+%       language       : (string) either 'e' (English) or 'f' (French) 
+%                                 according to the language of inSentence
+%
+%  OUTPUT:
+%       outSentence    : (string) the modified sentence
+%
+%  Template (c) 2011 Frank Rudzicz 
+
+  global CSC401_A2_DEFNS
+  
+  % first, convert the input sentence to lower-case and add sentence marks 
+  inSentence = [CSC401_A2_DEFNS.SENTSTART ' ' lower( inSentence ) ' ' CSC401_A2_DEFNS.SENTEND];
+
+  % Assignment 1 Preprocessing
+  inSentence = regexprep( inSentence, '([\?\.!]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([\$]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([,]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([:]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([;]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '(["]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([`]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([\(]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([\)]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([\[]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([\]]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([\-]+)', ' $1 ');
+  
+  % Mathematical Operators
+  inSentence = regexprep( inSentence, '([\+]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([<]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([>]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([=]+)', ' $1 ');
+  inSentence = regexprep( inSentence, '([/]+)', ' $1 ');
+
+  % trim whitespaces down 
+  inSentence = regexprep( inSentence, '\s+', ' '); 
+  
+  % initialize outSentence
+  outSentence = inSentence;
+  
+  % perform language-agnostic changes
+  % TODO: your code here
+  %    e.g., outSentence = regexprep( outSentence, 'TODO', 'TODO');
+
+  switch language
+   case 'e'
+    matchCase = '(((n|)''(t|ve|ll|re|s|m|d) )|(['']+))';
+    outSentence = regexprep( outSentence, matchCase, ' $1 ');
+
+   case 'f'
+    matchCase = '([bcdfghjklmnpqrstvwxyz]+'')([a-z0-9])+';
+    outSentence = regexprep( outSentence, matchCase, ' $1 $2 ');
+    matchCase = '( qu'')([a-z0-9])+';
+    outSentence = regexprep( outSentence, matchCase, ' $1 $2 ');
+    matchCase = '([a-z0-9]+'')(on|il)+';
+    outSentence = regexprep( outSentence, matchCase, ' $1 $2 ');
+    matchCase = '(d'') (abord|accord|ailleurs|habitude)+';
+    outSentence = regexprep( outSentence, matchCase, ' $1$2 ');
+
+  end
+  
+  % trim whitespaces down 
+  outSentence = regexprep( outSentence, '\s+', ' '); 
+  
+  % change unpleasant characters to codes that can be keys in dictionaries
+  outSentence = convertSymbols( outSentence );
+

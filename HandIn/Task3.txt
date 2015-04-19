@@ -1,0 +1,132 @@
+======================================================================================
+DISCUSSION
+======================================================================================
+-------------------------------------------------------------------------------------
+Maximum Likelihood Estimate (MLE)
+-------------------------------------------------------------------------------------
+
+eng_pp_MLE: 13.8560
+
+The perplexity of MLE is low since MLE's objective is to take the highest probability 
+of the corpuses provided (Testing directory). Therefore getting the highest probability
+indicates that we'll have lower perplexity since there will be less confusion occuring.
+Hence with MLE we'll get the better model out of the corpuses provided.
+
+-------------------------------------------------------------------------------------
+Delta Smoothing [English]
+-------------------------------------------------------------------------------------
+
+delta: 1
+eng_pp: 122.6244
+
+delta: 0.5 
+eng_pp: 92.0080
+
+delta: 0.2 
+eng_pp: 66.8539
+
+delta: 0.1
+eng_pp: 54.8884
+
+delta: 0.01
+eng_pp: 36.3697
+
+As we can see, as we increase the value of delta the amount of bits increases quite dramatically.
+This is due to the fact that we're distributing a portion of the probabilities from the higher
+chance of occuring words to the lower, making it such that the chance to see certain words that
+would usually have 0 probability have at least a chance of delta over the size of the vocabulary.
+This causes a huge difference in probability distribution thus leading to higher perplexity values
+in which indicates the amount of confusion.  Hence minimizing perplexity is equivalent to maximizing
+probability and having lower perplexity implies a better model.
+
+The following french results follow similarly.
+-------------------------------------------------------------------------------------
+Maximum Likelihood Estimate (MLE)
+-------------------------------------------------------------------------------------
+fre_pp_MLE: 13.5260
+
+-------------------------------------------------------------------------------------
+Delta Smoothing [French]
+-------------------------------------------------------------------------------------
+delta:  1
+fre_pp: 140.0565
+
+delta: 0.5
+fre_pp: 101.8097
+
+delta: 0.2 
+fre_pp: 71.2806
+
+delta: 0.1 
+fre_pp: 57.0636
+
+delta: 0.01
+fre_pp: 35.1993
+
+======================================================================================
+RAW DATA RESULTS
+======================================================================================
+eng_LM = lm_train('/u/cs401/A2_SMT/data/Hansard/Training/', 'e', '/h/u6/g0/00/g0quachb/Desktop/A2-401/eng_LM.mat')
+eng_pp_MLE = perplexity( eng_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'e', '', 1 )
+eng_pp_MLE =
+
+   13.8560
+
+eng_pp = perplexity( eng_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'e', 'smooth', 1 )
+eng_pp =
+
+  122.6244
+
+eng_pp = perplexity( eng_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'e', 'smooth', 0.5 )
+eng_pp =
+
+   92.0080
+
+eng_pp = perplexity( eng_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'e', 'smooth', 0.2 )
+eng_pp =
+
+   66.8539
+
+eng_pp = perplexity( eng_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'e', 'smooth', 0.1 )
+eng_pp =
+
+   54.8884
+
+eng_pp = perplexity( eng_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'e', 'smooth', 0.01 )
+eng_pp =
+
+   36.3697
+
+--------------------------------------------------------------------------------------------------------------
+
+fre_LM = lm_train('/u/cs401/A2_SMT/data/Hansard/Training/', 'f', '/h/u6/g0/00/g0quachb/Desktop/A2-401/fre_LM.mat')
+fre_pp_MLE = perplexity( fre_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'f', '', 1 )
+fre_pp_MLE =
+
+   13.5260
+
+fre_pp = perplexity( fre_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'f', 'smooth', 1 )
+fre_pp =
+
+  140.0565
+
+fre_pp = perplexity( fre_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'f', 'smooth', 0.5 )
+fre_pp =
+
+  101.8097
+
+fre_pp = perplexity( fre_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'f', 'smooth', 0.2 )
+fre_pp =
+
+   71.2806
+
+fre_pp = perplexity( fre_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'f', 'smooth', 0.1 )
+fre_pp =
+
+   57.0636
+
+fre_pp = perplexity( fre_LM, '/u/cs401/A2_SMT/data/Hansard/Testing/', 'f', 'smooth', 0.01 )
+fre_pp =
+
+   35.1993
+
